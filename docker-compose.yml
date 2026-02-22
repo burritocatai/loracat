@@ -46,7 +46,7 @@ services:
       - GLOBAL_SEED=${GLOBAL_SEED:-}
       - DATASET_DIR=/dataset/images
       - OUTPUT_DIR=/output/lora
-      - MODEL_PATH=/models/stable-diffusion-xl-base-1.0
+      - MODEL_PATH=${MODEL_PATH:-/models/stable-diffusion-xl-base-1.0}
       - TRAINING_CONFIG=/app/config/training_config.toml
       - TRIGGER_WORD=${TRIGGER_WORD:-nyafyi_woman}
       # Training hyperparameters

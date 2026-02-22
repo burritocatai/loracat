@@ -43,22 +43,26 @@ loracat/
 
 ## Quick Start
 
-### 1. Provide the Base SDXL Model
+### 1. Choose a Base Model
 
-Download or copy the SDXL Base 1.0 model into the `models/` directory:
+By default the pipeline uses SDXL Base 1.0 from a local path. You can override the base model via the `MODEL_PATH` environment variable — either a local path or a HuggingFace Hub ID:
 
 ```bash
+# Option A: Use a local model (default)
 mkdir -p models/stable-diffusion-xl-base-1.0
-
-# Option A: Download from HuggingFace (requires huggingface-cli)
 huggingface-cli download stabilityai/stable-diffusion-xl-base-1.0 \
     --local-dir models/stable-diffusion-xl-base-1.0
 
-# Option B: Copy from an existing install
-cp -r /path/to/your/sdxl-base-1.0/* models/stable-diffusion-xl-base-1.0/
+# Option B: Use a HuggingFace Hub ID (downloaded automatically at training time)
+export MODEL_PATH=stabilityai/stable-diffusion-xl-base-1.0
+
+# Option C: Use a different SDXL-based model
+export MODEL_PATH=/models/my-custom-sdxl-model
+# or
+export MODEL_PATH=yourhfuser/your-sdxl-finetune
 ```
 
-The directory should contain at minimum: `model_index.json`, `unet/`, `text_encoder/`, `text_encoder_2/`, `vae/`, `tokenizer/`, `tokenizer_2/`, `scheduler/`.
+For local models, the directory should contain at minimum: `model_index.json`, `unet/`, `text_encoder/`, `text_encoder_2/`, `vae/`, `tokenizer/`, `tokenizer_2/`, `scheduler/`.
 
 ### 2. Choose a Trigger Word
 
@@ -182,6 +186,7 @@ All training parameters can be overridden via environment variables, either in `
 | `FACE_REFERENCE` | _(empty)_ | Path to face reference image |
 | `GLOBAL_SEED` | _(empty)_ | Override seed on all KSampler nodes |
 | `COMFYUI_DELAY` | `2.0` | Seconds between ComfyUI requests |
+| `MODEL_PATH` | `/models/stable-diffusion-xl-base-1.0` | Base model — local path or HuggingFace Hub ID (e.g. `stabilityai/stable-diffusion-xl-base-1.0`) |
 | `TRIGGER_WORD` | `nyafyi_woman` | Trigger word — drives captions, training prompt, and inference |
 | `TRAIN_BATCH_SIZE` | `4` | Training batch size (increase for 128GB memory) |
 | `GRADIENT_ACCUMULATION_STEPS` | `1` | Gradient accumulation steps |
@@ -198,6 +203,9 @@ Example with overrides:
 
 ```bash
 TRAIN_BATCH_SIZE=8 LEARNING_RATE=5e-5 docker compose run loracat --train
+
+# Use a different base model:
+MODEL_PATH=stabilityai/stable-diffusion-xl-base-1.0 docker compose run loracat --train
 ```
 
 ### Training Config (TOML)

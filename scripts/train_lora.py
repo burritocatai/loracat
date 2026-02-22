@@ -170,14 +170,21 @@ def train(config_path: str) -> None:
         log.error("Dataset directory is empty or missing: %s", data_dir)
         sys.exit(1)
 
-    # Verify model exists
+    # Verify model exists — supports both local paths and HuggingFace Hub IDs
     model_path = config.get("pretrained_model_name_or_path", "")
     if model_path and not Path(model_path).exists():
-        log.warning(
-            "Model path %s does not exist locally. "
-            "Will attempt to download from HuggingFace Hub.",
-            model_path,
-        )
+        if "/" in model_path and not model_path.startswith("/"):
+            log.info(
+                "Model path '%s' looks like a HuggingFace Hub ID. "
+                "Will download at training time.",
+                model_path,
+            )
+        else:
+            log.warning(
+                "Model path %s does not exist locally. "
+                "Will attempt to download from HuggingFace Hub.",
+                model_path,
+            )
 
     # Save config snapshot
     output_dir = config.get("output_dir", "/output/lora")

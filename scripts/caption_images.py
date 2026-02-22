@@ -63,17 +63,26 @@ def load_labels(labels_path: str) -> tuple[list[str], list[int], list[int]]:
 
 def preprocess_image(image: Image.Image, size: int = 448) -> np.ndarray:
     """Preprocess an image for WD14 tagger inference."""
-    # Resize with padding to square
+    # Flatten alpha onto white background
     img = image.convert("RGBA")
     canvas = Image.new("RGBA", img.size, (255, 255, 255, 255))
     canvas.alpha_composite(img)
     img = canvas.convert("RGB")
 
-    # Resize to model input size
-    img = img.resize((size, size), Image.LANCZOS)
+    # Pad to square (preserving aspect ratio) with white background
+    w, h = img.size
+    max_dim = max(w, h)
+    pad_left = (max_dim - w) // 2
+    pad_top = (max_dim - h) // 2
+    padded = Image.new("RGB", (max_dim, max_dim), (255, 255, 255))
+    padded.paste(img, (pad_left, pad_top))
 
-    # Convert to numpy array, normalize to [0, 1]
-    arr = np.array(img, dtype=np.float32) / 255.0
+    # Resize to model input size
+    if max_dim != size:
+        padded = padded.resize((size, size), Image.BICUBIC)
+
+    # Convert to numpy float32 — WD14 expects [0, 255] range, NOT [0, 1]
+    arr = np.asarray(padded, dtype=np.float32)
 
     # WD14 expects BGR channel order
     arr = arr[:, :, ::-1]

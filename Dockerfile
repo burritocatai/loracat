@@ -36,9 +36,10 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Download the diffusers SDXL LoRA training script
+# Pin to release tag matching the installed diffusers version (main requires unreleased dev version)
 RUN mkdir -p /app/diffusers_scripts && \
     wget -q -O /app/diffusers_scripts/train_dreambooth_lora_sdxl.py \
-    "https://raw.githubusercontent.com/huggingface/diffusers/main/examples/dreambooth/train_dreambooth_lora_sdxl.py"
+    "https://raw.githubusercontent.com/huggingface/diffusers/v0.36.0/examples/dreambooth/train_dreambooth_lora_sdxl.py"
 
 # Copy application code
 COPY scripts/ /app/scripts/

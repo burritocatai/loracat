@@ -1,0 +1,36 @@
+# Model weights (too large for git)
+models/
+*.safetensors
+*.ckpt
+*.bin
+
+# Training outputs
+output/
+
+# Dataset images (generated/collected)
+dataset/images/*.png
+dataset/images/*.jpg
+dataset/images/*.jpeg
+dataset/images/*.webp
+dataset/images/*.txt
+
+# User prompts file (may contain custom data)
+prompts.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+
+# Environment
+.env
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# W&B
+wandb/

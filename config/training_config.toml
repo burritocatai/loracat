@@ -1,0 +1,57 @@
+# LoRACat — SDXL LoRA Training Configuration
+#
+# All values here can be overridden by environment variables.
+# See README.md for the full list of env var mappings.
+#
+# This file is saved alongside the trained LoRA for reproducibility.
+
+# Model
+pretrained_model_name_or_path = "/models/stable-diffusion-xl-base-1.0"
+
+# Dataset
+instance_data_dir = "/dataset/images"
+instance_prompt = "a photo of nyafyi_woman"
+
+# Output
+output_dir = "/output/lora"
+
+# LoRA network
+rank = 32
+
+# Training hyperparameters
+train_batch_size = 4
+gradient_accumulation_steps = 1
+learning_rate = 1e-4
+lr_scheduler = "cosine"
+lr_warmup_steps = 100
+num_train_epochs = 20
+seed = 42
+
+# Resolution (SDXL native)
+resolution = 1024
+center_crop = true
+random_flip = true
+
+# Mixed precision — bf16 is optimal on Blackwell
+mixed_precision = "bf16"
+
+# Memory optimization
+gradient_checkpointing = true
+use_8bit_adam = true
+
+# xformers is NOT available on ARM64 — PyTorch native SDPA is used instead
+# (and is faster on GB10 with cuDNN 9.13 anyway)
+enable_xformers_memory_efficient_attention = false
+
+# Data loading — DGX Spark has plenty of CPU cores
+dataloader_num_workers = 4
+
+# Checkpointing
+checkpointing_steps = 500
+
+# Validation (optional — set a prompt to generate validation images during training)
+# validation_prompt = "a photo of nyafyi_woman in a garden"
+# validation_epochs = 5
+
+# Min-SNR gamma weighting (improves training stability)
+snr_gamma = 5.0

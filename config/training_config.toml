@@ -10,6 +10,8 @@ pretrained_model_name_or_path = "/models/stable-diffusion-xl-base-1.0"
 
 # Dataset
 instance_data_dir = "/dataset/images"
+# instance_prompt is auto-generated from TRIGGER_WORD env var at runtime.
+# This fallback is used only if TRIGGER_WORD is unset.
 instance_prompt = "a photo of nyafyi_woman"
 
 # Output

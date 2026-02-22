@@ -72,6 +72,15 @@ def resolve_config(config: dict) -> dict:
             else:
                 resolved[param] = val
 
+    # TRIGGER_WORD drives instance_prompt and validation_prompt so the
+    # whole pipeline stays consistent regardless of what's in the .toml.
+    trigger = os.environ.get("TRIGGER_WORD")
+    if trigger:
+        resolved["instance_prompt"] = f"a photo of {trigger}"
+        if resolved.get("validation_prompt"):
+            resolved["validation_prompt"] = f"a photo of {trigger} in a garden"
+        log.info("Trigger word '%s' → instance_prompt='%s'", trigger, resolved["instance_prompt"])
+
     return resolved
 
 

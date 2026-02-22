@@ -60,7 +60,22 @@ cp -r /path/to/your/sdxl-base-1.0/* models/stable-diffusion-xl-base-1.0/
 
 The directory should contain at minimum: `model_index.json`, `unet/`, `text_encoder/`, `text_encoder_2/`, `vae/`, `tokenizer/`, `tokenizer_2/`, `scheduler/`.
 
-### 2. Export Your ComfyUI Workflow
+### 2. Choose a Trigger Word
+
+The trigger word is a unique token that ties your LoRA to a specific concept. It flows through the entire pipeline — captions, training prompt, and inference. Set it via the `TRIGGER_WORD` environment variable:
+
+```bash
+export TRIGGER_WORD=ohwx_person
+```
+
+Or set it in `docker-compose.yml`. The default is `nyafyi_woman`. Pick something unique that won't collide with real words (e.g. `sks_jane`, `ohwx_person`, `zzxjq_cat`).
+
+This single variable controls:
+- **Captioning** — prepended to every auto-generated `.txt` caption
+- **Training** — used as the `instance_prompt` (`"a photo of <trigger>"`)
+- **Inference** — the token you'll use in prompts to activate the LoRA
+
+### 3. Export Your ComfyUI Workflow
 
 The collection step uses your actual ComfyUI workflow — not a hardcoded template. This means any workflow (IPAdapter, ControlNet, InstantID, etc.) works out of the box.
 
@@ -72,7 +87,7 @@ The collection step uses your actual ComfyUI workflow — not a hardcoded templa
 cp /path/to/workflow_api.json ./workflow_api.json
 ```
 
-### 3. Configure Node ID Mapping
+### 4. Configure Node ID Mapping
 
 Edit `config/workflow_config.json` to tell the script which nodes to interact with. The script supports two modes:
 
@@ -108,7 +123,7 @@ The mode is auto-detected: if `positive_prompt_node` and `seed_node` are present
 | `seed_node` | Per-batch | KSampler seed node |
 | `output_node` | Per-batch | Single SaveImage node to download from |
 
-### 4. Provide a Face Reference Image
+### 5. Provide a Face Reference Image
 
 Place your face reference image in the project root:
 
@@ -118,7 +133,7 @@ cp /path/to/your/face.png ./face_reference.png
 
 The script uploads this to ComfyUI's `/upload/image` endpoint and injects the server-side filename into the workflow's LoadImage node.
 
-### 5. Set Up ComfyUI
+### 6. Set Up ComfyUI
 
 Ensure ComfyUI is running and accessible. By default the pipeline connects to `http://host.docker.internal:8188` (the host machine's port 8188 from inside Docker).
 
@@ -128,7 +143,7 @@ If ComfyUI is on a different host:
 export COMFYUI_ENDPOINT=http://192.168.1.100:8188
 ```
 
-### 6. Build and Run
+### 7. Build and Run
 
 ```bash
 # Create output directories
@@ -149,7 +164,7 @@ docker compose run loracat --collect            # Collect images only
 GLOBAL_SEED=42 docker compose run loracat --collect
 ```
 
-### 7. Get Your LoRA
+### 8. Get Your LoRA
 
 After training completes, your LoRA will be in `output/lora/` along with a `training_config_resolved.toml` snapshot of the exact configuration used.
 
@@ -167,7 +182,7 @@ All training parameters can be overridden via environment variables, either in `
 | `FACE_REFERENCE` | _(empty)_ | Path to face reference image |
 | `GLOBAL_SEED` | _(empty)_ | Override seed on all KSampler nodes |
 | `COMFYUI_DELAY` | `2.0` | Seconds between ComfyUI requests |
-| `TRIGGER_WORD` | `nyafyi_woman` | Trigger word prepended to all captions |
+| `TRIGGER_WORD` | `nyafyi_woman` | Trigger word — drives captions, training prompt, and inference |
 | `TRAIN_BATCH_SIZE` | `4` | Training batch size (increase for 128GB memory) |
 | `GRADIENT_ACCUMULATION_STEPS` | `1` | Gradient accumulation steps |
 | `LEARNING_RATE` | `1e-4` | Learning rate |

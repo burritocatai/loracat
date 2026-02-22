@@ -4,7 +4,7 @@
       "angle": "front",
       "expression": "neutral",
       "lighting": "ring light",
-      "prompt": "a photo of nyafyi_woman, front view, neutral expression, ring light lighting, professional portrait, high quality, sharp focus",
+      "prompt": "a photo of YOUR_TRIGGER, front view, neutral expression, ring light lighting, professional portrait, high quality, sharp focus",
       "seed": 12345,
       "count": 1
     },
@@ -12,7 +12,7 @@
       "angle": "front",
       "expression": "smiling",
       "lighting": "ring light",
-      "prompt": "a photo of nyafyi_woman, front view, smiling, ring light lighting, professional portrait, high quality, sharp focus",
+      "prompt": "a photo of YOUR_TRIGGER, front view, smiling, ring light lighting, professional portrait, high quality, sharp focus",
       "seed": 12346,
       "count": 1
     },
@@ -20,7 +20,7 @@
       "angle": "three-quarter",
       "expression": "neutral",
       "lighting": "natural",
-      "prompt": "a photo of nyafyi_woman, three-quarter view, neutral expression, natural lighting, professional portrait, high quality, sharp focus",
+      "prompt": "a photo of YOUR_TRIGGER, three-quarter view, neutral expression, natural lighting, professional portrait, high quality, sharp focus",
       "seed": 12347,
       "count": 1
     },
@@ -28,7 +28,7 @@
       "angle": "three-quarter",
       "expression": "laughing",
       "lighting": "studio",
-      "prompt": "a photo of nyafyi_woman, three-quarter view, laughing, studio lighting, professional portrait, high quality, sharp focus",
+      "prompt": "a photo of YOUR_TRIGGER, three-quarter view, laughing, studio lighting, professional portrait, high quality, sharp focus",
       "seed": 12348,
       "count": 1
     },
@@ -36,7 +36,7 @@
       "angle": "side",
       "expression": "neutral",
       "lighting": "golden hour",
-      "prompt": "a photo of nyafyi_woman, side profile view, neutral expression, golden hour lighting, professional portrait, high quality, sharp focus",
+      "prompt": "a photo of YOUR_TRIGGER, side profile view, neutral expression, golden hour lighting, professional portrait, high quality, sharp focus",
       "seed": 12349,
       "count": 1
     },
@@ -44,7 +44,7 @@
       "angle": "front",
       "expression": "serious",
       "lighting": "dramatic",
-      "prompt": "a photo of nyafyi_woman, front view, serious expression, dramatic side lighting, professional portrait, high quality, sharp focus",
+      "prompt": "a photo of YOUR_TRIGGER, front view, serious expression, dramatic side lighting, professional portrait, high quality, sharp focus",
       "seed": 12350,
       "count": 1
     }

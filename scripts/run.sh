@@ -5,7 +5,7 @@
 # Runs the full LoRA training pipeline in order:
 #   1. Collect images from ComfyUI
 #   2. Auto-caption images with WD14 tagger
-#   3. Train SDXL LoRA
+#   3. Train Z-Image LoRA (cache latents → cache text encoder → train)
 #
 # Each step logs with timestamps and fails loudly on error.
 # Steps can be selected individually via flags.
@@ -63,7 +63,7 @@ while [[ $# -gt 0 ]]; do
             echo "Usage: run.sh [--collect] [--caption] [--train] [--all]"
             echo "  --collect  Collect images from ComfyUI"
             echo "  --caption  Auto-caption images with WD14 tagger"
-            echo "  --train    Train SDXL LoRA"
+            echo "  --train    Train Z-Image LoRA (cache + train)"
             echo "  --all      Run all steps (default if no flags given)"
             exit 1
             ;;
@@ -86,15 +86,20 @@ log "  WORKFLOW_CONFIG:     ${WORKFLOW_CONFIG:-/app/config/workflow_config.json}
 log "  FACE_REFERENCE:      ${FACE_REFERENCE:-}"
 log "  PROMPTS_FILE:        ${PROMPTS_FILE:-/app/prompts.json}"
 log "  DATASET_DIR:         ${DATASET_DIR:-/dataset/images}"
+log "  CACHE_DIR:           ${CACHE_DIR:-/dataset/cache}"
 log "  OUTPUT_DIR:          ${OUTPUT_DIR:-/output/lora}"
-log "  MODEL_PATH:          ${MODEL_PATH:-/models/stable-diffusion-xl-base-1.0}"
+log "  DIT_PATH:            ${DIT_PATH:-/models/z_image/dit}"
+log "  VAE_PATH:            ${VAE_PATH:-/models/z_image/vae}"
+log "  TEXT_ENCODER_PATH:   ${TEXT_ENCODER_PATH:-/models/z_image/text_encoder}"
 log "  TRIGGER_WORD:        ${TRIGGER_WORD:-nyafyi_woman}"
 log "  TRAIN_BATCH_SIZE:    ${TRAIN_BATCH_SIZE:-4}"
 log "  LEARNING_RATE:       ${LEARNING_RATE:-1e-4}"
-log "  NUM_TRAIN_EPOCHS:    ${NUM_TRAIN_EPOCHS:-20}"
-log "  LORA_RANK:           ${LORA_RANK:-32}"
+log "  NUM_TRAIN_EPOCHS:    ${NUM_TRAIN_EPOCHS:-16}"
+log "  NETWORK_DIM:         ${NETWORK_DIM:-32}"
 log "  RESOLUTION:          ${RESOLUTION:-1024}"
 log "  MIXED_PRECISION:     ${MIXED_PRECISION:-bf16}"
+log "  DISCRETE_FLOW_SHIFT: ${DISCRETE_FLOW_SHIFT:-2.0}"
+log "  OUTPUT_NAME:         ${OUTPUT_NAME:-lora_output}"
 log "Steps: collect=${RUN_COLLECT} caption=${RUN_CAPTION} train=${RUN_TRAIN}"
 
 # --- GPU check ---
@@ -176,7 +181,7 @@ fi
 
 # --- Step 3: Train LoRA ---
 if [ "$RUN_TRAIN" = true ]; then
-    log_step "3/3 — Training SDXL LoRA"
+    log_step "3/3 — Training Z-Image LoRA (cache latents → cache text encoder → train)"
 
     python /app/scripts/train_lora.py \
         --config "${TRAINING_CONFIG:-/app/config/training_config.toml}"

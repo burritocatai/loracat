@@ -1,24 +1,23 @@
-# LoRACat — SDXL LoRA Training Configuration
+# LoRACat — Z-Image LoRA Training Configuration (musubi-tuner)
 #
 # All values here can be overridden by environment variables.
-# See README.md for the full list of env var mappings.
-#
 # This file is saved alongside the trained LoRA for reproducibility.
 
-# Model
-pretrained_model_name_or_path = "/models/stable-diffusion-xl-base-1.0"
+# Model paths
+dit = "/models/z_image/dit"
+vae = "/models/z_image/vae"
+text_encoder = "/models/z_image/text_encoder"
 
 # Dataset
-instance_data_dir = "/dataset/images"
-# instance_prompt is auto-generated from TRIGGER_WORD env var at runtime.
-# This fallback is used only if TRIGGER_WORD is unset.
-instance_prompt = "a photo of nyafyi_woman"
+dataset_config = "/dataset/cache/dataset_config.toml"
+
+# LoRA network
+network_module = "networks.lora_zimage"
+network_dim = 32
 
 # Output
 output_dir = "/output/lora"
-
-# LoRA network
-rank = 32
+output_name = "lora_output"
 
 # Training hyperparameters
 train_batch_size = 4
@@ -26,34 +25,27 @@ gradient_accumulation_steps = 1
 learning_rate = 1e-4
 lr_scheduler = "cosine"
 lr_warmup_steps = 100
-num_train_epochs = 20
+max_train_epochs = 16
+save_every_n_epochs = 1
 seed = 42
-
-# Resolution (SDXL native)
-resolution = 1024
-center_crop = true
-random_flip = true
 
 # Mixed precision — bf16 is optimal on Blackwell
 mixed_precision = "bf16"
 
 # Memory optimization
 gradient_checkpointing = true
-use_8bit_adam = true
+optimizer_type = "adamw8bit"
 
-# xformers is NOT available on ARM64 — PyTorch native SDPA is used instead
-# (and is faster on GB10 with cuDNN 9.13 anyway)
-enable_xformers_memory_efficient_attention = false
+# Attention — PyTorch native SDPA (no xformers needed)
+sdpa = true
 
-# Data loading — DGX Spark has plenty of CPU cores
+# Timestep sampling for Z-Image flow matching
+timestep_sampling = "shift"
+weighting_scheme = "none"
+discrete_flow_shift = 2.0
+
+# Data loading
 dataloader_num_workers = 4
 
-# Checkpointing
-checkpointing_steps = 500
-
-# Validation (optional — set a prompt to generate validation images during training)
-# validation_prompt = "a photo of nyafyi_woman in a garden"
-# validation_epochs = 5
-
-# Min-SNR gamma weighting (improves training stability)
-snr_gamma = 5.0
+# Cache settings
+cache_text_encoder_batch_size = 16

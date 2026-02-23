@@ -1,10 +1,5 @@
-# HuggingFace ecosystem for training
-diffusers==0.36.0
-accelerate>=1.2.0
-transformers>=4.47.0
-peft>=0.14.0
-safetensors>=0.4.0
-datasets>=3.0.0
+# LoRACat application dependencies (collect + caption scripts)
+# Training deps (diffusers, accelerate, transformers, peft) are managed by musubi-tuner.
 
 # Image processing
 Pillow>=10.0.0
@@ -16,12 +11,10 @@ huggingface_hub>=0.27.0
 numpy>=1.26.0
 pandas>=2.1.0
 
-# Tokenizer backends (required by some SDXL text encoders)
+# Tokenizer backends (required by Qwen3 text encoder)
 sentencepiece>=0.2.0
 
-# Training utilities
-prodigyopt>=1.0
-bitsandbytes>=0.45.0
+# Experiment tracking (optional)
 wandb>=0.18.0
 
 # Config

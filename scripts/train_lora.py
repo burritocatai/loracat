@@ -85,10 +85,16 @@ def resolve_config(config: dict) -> dict:
 
 
 def _bnb_available() -> bool:
-    """Check if bitsandbytes CUDA backend is actually usable (native .so loaded)."""
+    """Check if bitsandbytes CUDA binary exists for the current CUDA version."""
     try:
-        from bitsandbytes import cextension
-        return getattr(cextension, "lib", None) is not None
+        import bitsandbytes
+        import torch
+        cuda_ver = torch.version.cuda
+        if not cuda_ver:
+            return False
+        tag = cuda_ver.replace(".", "")
+        so_path = Path(bitsandbytes.__file__).parent / f"libbitsandbytes_cuda{tag}.so"
+        return so_path.exists()
     except Exception:
         return False
 

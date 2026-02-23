@@ -36,7 +36,13 @@ services:
       # Comment out if using full-workflow mode with baked-in prompts
       # - ./prompts.json:/app/prompts.json:ro
 
+    env_file:
+      - path: .env
+        required: false
+
     environment:
+      # Hugging Face token (for model downloads)
+      - HF_TOKEN=${HF_TOKEN:-}
       - COMFYUI_ENDPOINT=${COMFYUI_ENDPOINT:-http://host.docker.internal:8188}
       - COMFYUI_WORKFLOW=/app/workflow_api.json
       - WORKFLOW_CONFIG=/app/config/workflow_config.json

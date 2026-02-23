@@ -84,6 +84,17 @@ def resolve_config(config: dict) -> dict:
     return resolved
 
 
+def _bnb_available() -> bool:
+    """Check if bitsandbytes CUDA backend is actually usable."""
+    try:
+        import bitsandbytes as bnb  # noqa: F401
+        # Force load the native library — this is what actually fails on ARM64
+        bnb.optim.Adam8bit  # noqa: B018
+        return True
+    except Exception:
+        return False
+
+
 def build_command(config: dict) -> list[str]:
     """Build the accelerate launch command from resolved config."""
     cmd = [
@@ -92,6 +103,14 @@ def build_command(config: dict) -> list[str]:
         "--mixed_precision", config.get("mixed_precision", "bf16"),
         TRAINING_SCRIPT,
     ]
+
+    # Disable 8-bit adam if bitsandbytes native library isn't available (e.g. ARM64)
+    if config.get("use_8bit_adam") and not _bnb_available():
+        log.warning(
+            "bitsandbytes CUDA backend not available — disabling 8-bit Adam. "
+            "Training will use standard AdamW instead."
+        )
+        config["use_8bit_adam"] = False
 
     # Boolean flags
     bool_flags = {

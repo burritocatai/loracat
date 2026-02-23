@@ -16,6 +16,9 @@ huggingface_hub>=0.27.0
 numpy>=1.26.0
 pandas>=2.1.0
 
+# Tokenizer backends (required by some SDXL text encoders)
+sentencepiece>=0.2.0
+
 # Training utilities
 prodigyopt>=1.0
 bitsandbytes>=0.45.0

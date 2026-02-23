@@ -209,7 +209,7 @@ def build_train_command(config: dict, dataset_config_path: str) -> list[str]:
         "weighting_scheme": "--weighting_scheme",
         "discrete_flow_shift": "--discrete_flow_shift",
         "gradient_accumulation_steps": "--gradient_accumulation_steps",
-        "dataloader_num_workers": "--dataloader_num_workers",
+        "dataloader_num_workers": "--max_data_loader_n_workers",
         "mixed_precision": "--mixed_precision",
     }
 

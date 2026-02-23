@@ -87,10 +87,8 @@ def resolve_config(config: dict) -> dict:
 def _bnb_available() -> bool:
     """Check if bitsandbytes CUDA backend is actually usable."""
     try:
-        import bitsandbytes as bnb  # noqa: F401
-        # Force load the native library — this is what actually fails on ARM64
-        bnb.optim.Adam8bit  # noqa: B018
-        return True
+        from bitsandbytes import cextension
+        return cextension.lib is not None
     except Exception:
         return False
 

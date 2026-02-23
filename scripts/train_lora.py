@@ -26,6 +26,21 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 MUSUBI_DIR = "/app/musubi-tuner/src/musubi_tuner"
+
+
+def _bnb_available() -> bool:
+    """Check if bitsandbytes CUDA binary exists for the current CUDA version."""
+    try:
+        import bitsandbytes
+        import torch
+        cuda_ver = torch.version.cuda
+        if not cuda_ver:
+            return False
+        tag = cuda_ver.replace(".", "")
+        so_path = Path(bitsandbytes.__file__).parent / f"libbitsandbytes_cuda{tag}.so"
+        return so_path.exists()
+    except Exception:
+        return False
 CACHE_LATENTS_SCRIPT = f"{MUSUBI_DIR}/zimage_cache_latents.py"
 CACHE_TEXT_ENC_SCRIPT = f"{MUSUBI_DIR}/zimage_cache_text_encoder_outputs.py"
 TRAIN_SCRIPT = f"{MUSUBI_DIR}/zimage_train_network.py"
@@ -84,6 +99,17 @@ def resolve_config(config: dict) -> dict:
                 resolved[param] = float(val)
             else:
                 resolved[param] = val
+
+    # Fall back from 8-bit optimizer if bitsandbytes is unavailable
+    opt = resolved.get("optimizer_type", "")
+    if "8bit" in opt.lower() and not _bnb_available():
+        fallback = "adamw"
+        log.warning(
+            "bitsandbytes CUDA binary not available; "
+            "falling back from %s to %s",
+            opt, fallback,
+        )
+        resolved["optimizer_type"] = fallback
 
     return resolved
 

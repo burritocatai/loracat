@@ -85,10 +85,10 @@ def resolve_config(config: dict) -> dict:
 
 
 def _bnb_available() -> bool:
-    """Check if bitsandbytes CUDA backend is actually usable."""
+    """Check if bitsandbytes CUDA backend is actually usable (native .so loaded)."""
     try:
         from bitsandbytes import cextension
-        return cextension.lib is not None
+        return getattr(cextension, "lib", None) is not None
     except Exception:
         return False
 

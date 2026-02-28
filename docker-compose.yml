@@ -30,6 +30,8 @@ services:
       - ./workflow_api.json:/app/workflow_api.json:ro
       # Face reference image (for image loader node injection)
       - ./face_reference.png:/app/face_reference.png:ro
+      # Prompts for generated-workflow mode
+      - ./prompts.json:/app/prompts.json:ro
       # Config (training config + workflow node mapping + dataset config)
       - ./config:/app/config:ro
 
@@ -44,6 +46,7 @@ services:
       - COMFYUI_WORKFLOW=/app/workflow_api.json
       - WORKFLOW_CONFIG=/app/config/workflow_config.json
       - FACE_REFERENCE=/app/face_reference.png
+      - PROMPTS_FILE=/app/prompts.json
       - DATASET_DIR=/dataset/images
       - CACHE_DIR=/dataset/cache
       - OUTPUT_DIR=/output/lora

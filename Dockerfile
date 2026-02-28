@@ -36,6 +36,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY scripts/ /app/scripts/
 COPY config/ /app/config/
+COPY prompts.json /app/prompts.json
 
 # Make scripts executable
 RUN chmod +x /app/scripts/run.sh
@@ -48,7 +49,7 @@ ENV COMFYUI_ENDPOINT="http://host.docker.internal:8188"
 ENV COMFYUI_WORKFLOW="/app/workflow_api.json"
 ENV WORKFLOW_CONFIG="/app/config/workflow_config.json"
 ENV FACE_REFERENCE=""
-ENV PROMPTS_FILE=""
+ENV PROMPTS_FILE="/app/prompts.json"
 ENV GLOBAL_SEED=""
 ENV DATASET_DIR="/dataset/images"
 ENV CACHE_DIR="/dataset/cache"

@@ -1,50 +1,56 @@
 {
   "batches": [
     {
-      "angle": "front",
-      "expression": "neutral",
-      "lighting": "ring light",
-      "prompt": "a photo of YOUR_TRIGGER, front view, neutral expression, ring light lighting, professional portrait, high quality, sharp focus",
+      "angle": "low side",
+      "expression": "calm and focused",
+      "clothes": "beige raincoat",
+      "lighting": "neon reflections on wet pavement",
+      "prompt": "Make this person stand at a crosswalk, captured with a 35mm lens at f/2.8, skin showing pores, wrinkles, and subtle blemishes.",
       "seed": 12345,
       "count": 1
     },
     {
-      "angle": "front",
-      "expression": "smiling",
-      "lighting": "ring light",
-      "prompt": "a photo of YOUR_TRIGGER, front view, smiling, ring light lighting, professional portrait, high quality, sharp focus",
+      "angle": "dutch",
+      "expression": "thoughtful",
+      "clothes": "light grey hoodie and dark jeans",
+      "lighting": "natural window",
+      "prompt": "Make this person lean against a café window, captured at chest height with a 35mm lens at f/2.0, skin detailed with realistic pores, light wrinkles, and minor imperfections.",
       "seed": 12346,
       "count": 1
     },
     {
-      "angle": "three-quarter",
-      "expression": "neutral",
-      "lighting": "natural",
-      "prompt": "a photo of YOUR_TRIGGER, three-quarter view, neutral expression, natural lighting, professional portrait, high quality, sharp focus",
+      "angle": "slightly high",
+      "expression": "smiling faintly",
+      "clothes": "blue denim jacket and black skirt",
+      "lighting": "natural daylight",
+      "prompt": "Make this person sit on concrete steps, leaning back on her elbows with one knee raised, captured with a 50mm lens at f/2.2, skin textured with realistic pores and imperfections.",
       "seed": 12347,
       "count": 1
     },
     {
-      "angle": "three-quarter",
-      "expression": "laughing",
-      "lighting": "studio",
-      "prompt": "a photo of YOUR_TRIGGER, three-quarter view, laughing, studio lighting, professional portrait, high quality, sharp focus",
+      "angle": "overhead",
+      "expression": "calm and contemplative",
+      "clothes": "oversized cream sweater",
+      "lighting": "soft indoor",
+      "prompt": "Make this person sit cross-legged on a wooden floor, captured from directly above with a 24mm lens at f/4.0, skin showing natural pores, subtle lines, and blemishes.",
       "seed": 12348,
       "count": 1
     },
     {
-      "angle": "side",
-      "expression": "neutral",
-      "lighting": "golden hour",
-      "prompt": "a photo of YOUR_TRIGGER, side profile view, neutral expression, golden hour lighting, professional portrait, high quality, sharp focus",
+      "angle": "low front",
+      "expression": "soft waking smile",
+      "clothes": "navy scarf and tan coat",
+      "lighting": "sunrise",
+      "prompt": "Make this person lean on a ferry railing, captured with a 50mm lens at f/4.0, looking at the camera, skin rendered with pores, small blemishes, and gentle wrinkles.",
       "seed": 12349,
       "count": 1
     },
     {
-      "angle": "front",
-      "expression": "serious",
-      "lighting": "dramatic",
-      "prompt": "a photo of YOUR_TRIGGER, front view, serious expression, dramatic side lighting, professional portrait, high quality, sharp focus",
+      "angle": "side profile",
+      "expression": "serious and composed",
+      "clothes": "black business suit",
+      "lighting": "even studio",
+      "prompt": "Make this person stand against a plain white wall, hands tucked into pockets, captured with a 50mm lens at f/2.5, skin rendered with pores, imperfections, and faint wrinkles.",
       "seed": 12350,
       "count": 1
     }

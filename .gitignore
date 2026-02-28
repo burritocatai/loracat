@@ -14,9 +14,6 @@ dataset/images/*.jpeg
 dataset/images/*.webp
 dataset/images/*.txt
 
-# User prompts file (may contain custom data)
-prompts.json
-
 # Python
 __pycache__/
 *.pyc

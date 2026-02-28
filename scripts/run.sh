@@ -114,17 +114,22 @@ fi
 if [ "$RUN_COLLECT" = true ]; then
     log_step "1/3 — Collecting images from ComfyUI"
 
-    WORKFLOW_FILE="${COMFYUI_WORKFLOW:-/app/workflow_api.json}"
-    if [ ! -f "$WORKFLOW_FILE" ]; then
-        log_error "Workflow file not found: $WORKFLOW_FILE"
-        log_error "Export your ComfyUI workflow as API JSON and mount it, or set COMFYUI_WORKFLOW"
-        exit 1
-    fi
-
     CONFIG_FILE="${WORKFLOW_CONFIG:-/app/config/workflow_config.json}"
     if [ ! -f "$CONFIG_FILE" ]; then
         log_error "Workflow config not found: $CONFIG_FILE"
         log_error "Create a workflow_config.json with node IDs, or set WORKFLOW_CONFIG"
+        exit 1
+    fi
+
+    WORKFLOW_FILE="${COMFYUI_WORKFLOW:-/app/workflow_api.json}"
+
+    # When generate_workflow is enabled, the workflow is built from prompts
+    # at runtime — no static workflow JSON file is needed.
+    if grep -q '"generate_workflow"' "$CONFIG_FILE" 2>/dev/null; then
+        log "Workflow will be generated from prompts (no workflow file needed)"
+    elif [ ! -f "$WORKFLOW_FILE" ]; then
+        log_error "Workflow file not found: $WORKFLOW_FILE"
+        log_error "Export your ComfyUI workflow as API JSON and mount it, or set COMFYUI_WORKFLOW"
         exit 1
     fi
 
@@ -136,7 +141,7 @@ if [ "$RUN_COLLECT" = true ]; then
         --delay "${COMFYUI_DELAY:-2.0}"
     )
 
-    # Prompts file is only required for per-batch mode
+    # Prompts file — required for generated-workflow and per-batch modes
     if [ -f "${PROMPTS_FILE:-/app/prompts.json}" ]; then
         COLLECT_ARGS+=(--prompts "${PROMPTS_FILE:-/app/prompts.json}")
     fi

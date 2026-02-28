@@ -328,9 +328,12 @@ def build_workflow(prompts: list[str], cfg: dict | None = None) -> dict:
 def load_prompts(prompts_path: str) -> list[str]:
     """Load prompts from a JSON file.
 
-    Supports two formats:
+    Supports three formats:
       - Simple list:  ["prompt1", "prompt2", ...]
       - Object:       {"prompts": ["prompt1", "prompt2", ...]}
+      - Batches:      {"batches": [{"prompt": "...", "clothes": "...", ...}, ...]}
+
+    For batches, the full prompt is assembled from the base prompt + keys.
     """
     with open(prompts_path) as f:
         data = json.load(f)
@@ -341,7 +344,22 @@ def load_prompts(prompts_path: str) -> list[str]:
     if isinstance(data, dict) and "prompts" in data:
         return data["prompts"]
 
+    if isinstance(data, dict) and "batches" in data:
+        prompts = []
+        for entry in data["batches"]:
+            parts = [entry["prompt"]]
+            if entry.get("clothes"):
+                parts.append(f"wearing {entry['clothes']}")
+            if entry.get("expression"):
+                parts.append(f"with {entry['expression']} expression")
+            if entry.get("angle"):
+                parts.append(f"from {entry['angle']} angle")
+            if entry.get("lighting"):
+                parts.append(f"with {entry['lighting']} lighting")
+            prompts.append(", ".join(parts))
+        return prompts
+
     raise ValueError(
-        f"Expected a JSON array or an object with a 'prompts' key, "
+        f"Expected a JSON array, or an object with a 'prompts' or 'batches' key, "
         f"got {type(data).__name__}"
     )

@@ -279,6 +279,44 @@ def get_images(
     return images
 
 
+# ── Memory cleanup ────────────────────────────────────────────────────────────
+
+UNLOAD_MODELS_WORKFLOW = {
+    "1": {
+        "inputs": {"value": ["4", 0]},
+        "class_type": "UnloadAllModels",
+        "_meta": {"title": "UnloadAllModels"},
+    },
+    "3": {
+        "inputs": {"any_input": ["1", 0]},
+        "class_type": "DummyOut",
+        "_meta": {"title": "Dummy Out"},
+    },
+    "4": {
+        "inputs": {},
+        "class_type": "ImpactDummyInput",
+        "_meta": {"title": "ImpactDummyInput"},
+    },
+}
+
+
+def unload_models(endpoint: str) -> None:
+    """Run a dummy workflow that unloads all models from ComfyUI GPU memory.
+
+    This frees VRAM after image generation so that subsequent training
+    is not starved for memory.
+    """
+    endpoint = endpoint.rstrip("/")
+    ws_endpoint = endpoint.replace("http://", "ws://").replace("https://", "wss://")
+    client_id = str(uuid.uuid4())
+    ws_url = f"{ws_endpoint}/ws?clientId={client_id}"
+
+    log.info("Unloading ComfyUI models to free GPU memory ...")
+    prompt_id = queue_prompt(endpoint, UNLOAD_MODELS_WORKFLOW, client_id)
+    wait_for_completion(ws_url, prompt_id, timeout=120)
+    log.info("Models unloaded successfully")
+
+
 # ── Full-workflow mode ───────────────────────────────────────────────────────
 
 
@@ -559,6 +597,9 @@ def main():
     if count == 0:
         log.error("No images were collected!")
         sys.exit(1)
+
+    # Free GPU memory so subsequent training isn't starved for VRAM
+    unload_models(args.endpoint)
 
 
 if __name__ == "__main__":

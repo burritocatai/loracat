@@ -14,6 +14,10 @@ dataset/images/*.jpeg
 dataset/images/*.webp
 dataset/images/*.txt
 
+dataset/cache
+
+face_reference.png
+
 # User prompts file (may contain custom data)
 prompts.json
 

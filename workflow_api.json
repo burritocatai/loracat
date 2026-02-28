@@ -1,0 +1,5877 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "z_image_turbo_bf16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "3": {
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "4": {
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "5": {
+    "inputs": {
+      "unet_name": "qwen-image-edit-2511-Q4_K_M.gguf"
+    },
+    "class_type": "UnetLoaderGGUF",
+    "_meta": {
+      "title": "Unet Loader (GGUF)"
+    }
+  },
+  "6": {
+    "inputs": {
+      "clip_name": "qwen_3_4b.safetensors",
+      "type": "lumina2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "7": {
+    "inputs": {
+      "clip_name": "qwen_2.5_vl_7b.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "8": {
+    "inputs": {
+      "lora_name": "Qwen-Image-Lightning-4steps-V1.0.safetensors",
+      "strength_model": 1,
+      "model": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "12": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "17",
+        0
+      ],
+      "negative": [
+        "20",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "15": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "megapixels": 1,
+      "resolution_steps": 1,
+      "image": [
+        "16",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "ImageScaleToTotalPixels"
+    }
+  },
+  "16": {
+    "inputs": {
+      "image": "z-image-turbo_00169_.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "17": {
+    "inputs": {
+      "prompt": "Make this person stand at a crosswalk in a beige raincoat, captured from a low side angle with a 35mm lens at f/2.8, her profile framed against blurred neon reflections on wet pavement, expression calm and focused, skin showing pores, wrinkles, and subtle blemishes.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "20": {
+    "inputs": {
+      "conditioning": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "21": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "23": {
+    "inputs": {
+      "samples": [
+        "12",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "24": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "23",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "39": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "41",
+        0
+      ],
+      "latent_image": [
+        "46",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "40": {
+    "inputs": {
+      "text": "detailed, visible skin pores, photorealistic",
+      "clip": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "41": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "42": {
+    "inputs": {
+      "samples": [
+        "39",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "43": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "42",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "46": {
+    "inputs": {
+      "pixels": [
+        "23",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "51": {
+    "inputs": {
+      "conditioning": [
+        "52",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "52": {
+    "inputs": {
+      "prompt": "Make this person lean against a café window in a light grey hoodie and dark jeans, viewed from a dutch angle at chest height with a 35mm lens at f/2.0, expression thoughtful, skin detailed with realistic pores, light wrinkles, and minor imperfections.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "53": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "52",
+        0
+      ],
+      "negative": [
+        "51",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "59": {
+    "inputs": {
+      "samples": [
+        "53",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "60": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "59",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "62": {
+    "inputs": {
+      "samples": [
+        "69",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "64": {
+    "inputs": {
+      "pixels": [
+        "59",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "67": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "69": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "67",
+        0
+      ],
+      "latent_image": [
+        "64",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "70": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "62",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "71": {
+    "inputs": {
+      "conditioning": [
+        "72",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "72": {
+    "inputs": {
+      "prompt": "Make this person sit on concrete steps in a blue denim jacket and black skirt, leaning back on her elbows with one knee raised, photographed from a slightly high angle using a 50mm lens at f/2.2, smiling faintly, skin textured with realistic pores and imperfections.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "73": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "72",
+        0
+      ],
+      "negative": [
+        "71",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "79": {
+    "inputs": {
+      "samples": [
+        "73",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "80": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "79",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "82": {
+    "inputs": {
+      "samples": [
+        "88",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "83": {
+    "inputs": {
+      "pixels": [
+        "79",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "86": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "88": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "86",
+        0
+      ],
+      "latent_image": [
+        "83",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "89": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "82",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "94": {
+    "inputs": {
+      "conditioning": [
+        "103",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "100": {
+    "inputs": {
+      "samples": [
+        "104",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "101": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "100",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "103": {
+    "inputs": {
+      "prompt": "Make this person sit cross-legged on a wooden floor in an oversized cream sweater, photographed from directly above with a 24mm lens at f/4.0, her expression calm and contemplative, skin showing natural pores, subtle lines, and blemishes.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "104": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "103",
+        0
+      ],
+      "negative": [
+        "94",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "105": {
+    "inputs": {
+      "conditioning": [
+        "114",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "111": {
+    "inputs": {
+      "samples": [
+        "115",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "112": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "111",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "114": {
+    "inputs": {
+      "prompt": "Make this person lean on the ferry railing at sunrise in a navy scarf and tan coat, photographed from a low front angle with a 50mm lens at f/4.0, looking at the camera with a soft, waking smile, skin rendered with pores, small blemishes, and gentle wrinkles.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "115": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "114",
+        0
+      ],
+      "negative": [
+        "105",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "116": {
+    "inputs": {
+      "conditioning": [
+        "125",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "122": {
+    "inputs": {
+      "samples": [
+        "126",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "123": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "122",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "125": {
+    "inputs": {
+      "prompt": "Make this person lean on a night market stall counter under warm string lights in a lightweight patterned shirt and cropped trousers, framed with a 35mm lens at f/1.8 from chest height and a slight dutch tilt, looking at the camera with curious eyes, skin showing pores, tiny blemishes, and fine surface detail.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "126": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "125",
+        0
+      ],
+      "negative": [
+        "116",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "127": {
+    "inputs": {
+      "conditioning": [
+        "136",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "133": {
+    "inputs": {
+      "samples": [
+        "137",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "134": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "133",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "136": {
+    "inputs": {
+      "prompt": "Make this person stand in profile against a plain white wall in a black business suit, hands tucked into her pockets, framed with a 50mm lens at f/2.5 from a side angle, expression serious and composed, skin rendered with pores, imperfections, and faint wrinkles.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "137": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "136",
+        0
+      ],
+      "negative": [
+        "127",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "138": {
+    "inputs": {
+      "conditioning": [
+        "147",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "144": {
+    "inputs": {
+      "samples": [
+        "148",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "145": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "144",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "147": {
+    "inputs": {
+      "prompt": "Make this person recline sideways across a sofa in a red silk dress, captured from a low front angle at eye level with an 85mm lens at f/1.8, expression dreamy with a faint smile, skin showing pores, light wrinkles, and realistic surface detail.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "148": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "147",
+        0
+      ],
+      "negative": [
+        "138",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "149": {
+    "inputs": {
+      "conditioning": [
+        "158",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "155": {
+    "inputs": {
+      "samples": [
+        "159",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "156": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "155",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "158": {
+    "inputs": {
+      "prompt": "Make this person sit sideways on a park bench covered in autumn leaves, wearing a deep maroon cardigan and jeans, photographed from a slightly high diagonal angle with a 50mm lens at f/2.5, smiling gently while looking at the camera, skin rendered with pores, subtle lines, and imperfections.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "159": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "158",
+        0
+      ],
+      "negative": [
+        "149",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "160": {
+    "inputs": {
+      "conditioning": [
+        "169",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "166": {
+    "inputs": {
+      "samples": [
+        "170",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "167": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "166",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "169": {
+    "inputs": {
+      "prompt": "Make this person stand beside a vending machine glowing at night in a black bomber jacket and white t-shirt, framed at eye level with a 28mm lens at f/2.0 from a slight side angle, expression neutral while looking at the camera, skin showing pores, small blemishes, and fine texture.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "170": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "169",
+        0
+      ],
+      "negative": [
+        "160",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "171": {
+    "inputs": {
+      "conditioning": [
+        "180",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "177": {
+    "inputs": {
+      "samples": [
+        "181",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "178": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "177",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "180": {
+    "inputs": {
+      "prompt": "Make this person stand on a pier with ocean behind her, wearing a soft teal windbreaker and shorts, photographed from a slightly low angle at 24mm f/4.0, wind blowing her hair as she looks at the camera with a soft smile, skin showing pores, small wrinkles, and subtle blemishes.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "181": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "180",
+        0
+      ],
+      "negative": [
+        "171",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "182": {
+    "inputs": {
+      "conditioning": [
+        "191",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "188": {
+    "inputs": {
+      "samples": [
+        "192",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "189": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "188",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "191": {
+    "inputs": {
+      "prompt": "Make this person lean over a balcony railing in a white blouse and beige pants, framed from a slightly high angle with a 50mm lens at f/2.0, expression thoughtful while looking toward the camera, skin rendered with pores, light wrinkles, and realistic surface detail.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "192": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "191",
+        0
+      ],
+      "negative": [
+        "182",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "193": {
+    "inputs": {
+      "conditioning": [
+        "202",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "199": {
+    "inputs": {
+      "samples": [
+        "203",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "200": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "199",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "202": {
+    "inputs": {
+      "prompt": "Make this person sit on a basketball court in a sporty red jacket and tights, legs stretched forward, captured from above with a 24mm lens at f/4.0, looking at the camera with determined eyes, skin rendered with realistic pores, light imperfections, and surface detail.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "203": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "202",
+        0
+      ],
+      "negative": [
+        "193",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "204": {
+    "inputs": {
+      "conditioning": [
+        "213",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "210": {
+    "inputs": {
+      "samples": [
+        "214",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "211": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "210",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "213": {
+    "inputs": {
+      "prompt": "Make this person stand between tall library shelves in a cream knit sweater and skirt, framed from a slightly high side angle with a 50mm lens at f/2.8, glancing at the camera with a quiet, focused expression, skin showing pores, wrinkles, and subtle blemishes.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "214": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "213",
+        0
+      ],
+      "negative": [
+        "204",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "215": {
+    "inputs": {
+      "conditioning": [
+        "224",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "221": {
+    "inputs": {
+      "samples": [
+        "225",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "222": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "221",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "224": {
+    "inputs": {
+      "prompt": "Make this person sit inside a bright laundromat on a blue plastic chair wearing a casual hoodie and shorts, photographed from chest height with a 35mm lens at f/2.5, leaning forward and looking at the camera with a relaxed smile, skin detailed with imperfections, texture, and pores.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "225": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "224",
+        0
+      ],
+      "negative": [
+        "215",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "226": {
+    "inputs": {
+      "conditioning": [
+        "235",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "232": {
+    "inputs": {
+      "samples": [
+        "236",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "233": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "232",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "235": {
+    "inputs": {
+      "prompt": "Make this person kneel in a flower field at golden hour wearing a pastel yellow dress, captured from a low angle at eye level with an 85mm lens at f/1.8, directly facing the camera with a peaceful expression, skin showing natural pores, faint blemishes, and slight wrinkles.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "236": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "235",
+        0
+      ],
+      "negative": [
+        "226",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "238": {
+    "inputs": {
+      "samples": [
+        "245",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "239": {
+    "inputs": {
+      "pixels": [
+        "100",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "242": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "245": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "242",
+        0
+      ],
+      "latent_image": [
+        "239",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "246": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "238",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "247": {
+    "inputs": {
+      "samples": [
+        "254",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "248": {
+    "inputs": {
+      "pixels": [
+        "111",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "251": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "254": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "251",
+        0
+      ],
+      "latent_image": [
+        "248",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "255": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "247",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "256": {
+    "inputs": {
+      "samples": [
+        "263",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "257": {
+    "inputs": {
+      "pixels": [
+        "122",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "260": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "263": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "260",
+        0
+      ],
+      "latent_image": [
+        "257",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "264": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "256",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "265": {
+    "inputs": {
+      "samples": [
+        "272",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "266": {
+    "inputs": {
+      "pixels": [
+        "133",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "269": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "272": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "269",
+        0
+      ],
+      "latent_image": [
+        "266",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "273": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "265",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "274": {
+    "inputs": {
+      "samples": [
+        "281",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "275": {
+    "inputs": {
+      "pixels": [
+        "144",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "278": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "281": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "278",
+        0
+      ],
+      "latent_image": [
+        "275",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "282": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "274",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "283": {
+    "inputs": {
+      "samples": [
+        "290",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "284": {
+    "inputs": {
+      "pixels": [
+        "155",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "287": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "290": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "287",
+        0
+      ],
+      "latent_image": [
+        "284",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "291": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "283",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "292": {
+    "inputs": {
+      "samples": [
+        "299",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "293": {
+    "inputs": {
+      "pixels": [
+        "166",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "296": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "299": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "296",
+        0
+      ],
+      "latent_image": [
+        "293",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "300": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "292",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "301": {
+    "inputs": {
+      "samples": [
+        "308",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "302": {
+    "inputs": {
+      "pixels": [
+        "177",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "305": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "308": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "305",
+        0
+      ],
+      "latent_image": [
+        "302",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "309": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "301",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "310": {
+    "inputs": {
+      "samples": [
+        "317",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "311": {
+    "inputs": {
+      "pixels": [
+        "188",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "314": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "317": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "314",
+        0
+      ],
+      "latent_image": [
+        "311",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "318": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "310",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "319": {
+    "inputs": {
+      "samples": [
+        "326",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "320": {
+    "inputs": {
+      "pixels": [
+        "199",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "323": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "326": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "323",
+        0
+      ],
+      "latent_image": [
+        "320",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "327": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "319",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "328": {
+    "inputs": {
+      "samples": [
+        "335",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "329": {
+    "inputs": {
+      "pixels": [
+        "210",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "332": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "335": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "332",
+        0
+      ],
+      "latent_image": [
+        "329",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "336": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "328",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "337": {
+    "inputs": {
+      "samples": [
+        "344",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "338": {
+    "inputs": {
+      "pixels": [
+        "221",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "341": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "344": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "341",
+        0
+      ],
+      "latent_image": [
+        "338",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "345": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "337",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "346": {
+    "inputs": {
+      "samples": [
+        "353",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "347": {
+    "inputs": {
+      "pixels": [
+        "232",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "350": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "353": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "350",
+        0
+      ],
+      "latent_image": [
+        "347",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "354": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "346",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "370": {
+    "inputs": {
+      "shift": 3,
+      "model": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingAuraFlow",
+    "_meta": {
+      "title": "ModelSamplingAuraFlow"
+    }
+  },
+  "371": {
+    "inputs": {
+      "shift": 3,
+      "model": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingAuraFlow",
+    "_meta": {
+      "title": "ModelSamplingAuraFlow"
+    }
+  },
+  "378": {
+    "inputs": {
+      "conditioning": [
+        "381",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "379": {
+    "inputs": {
+      "samples": [
+        "382",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "380": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "379",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "381": {
+    "inputs": {
+      "prompt": "Make this person stand at a crosswalk in a beige raincoat, captured from a low side angle with a 35mm lens at f/2.8, her profile framed against blurred neon reflections on wet pavement, expression calm and focused, skin showing pores, wrinkles, and subtle blemishes.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "382": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "381",
+        0
+      ],
+      "negative": [
+        "378",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "387": {
+    "inputs": {
+      "samples": [
+        "391",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "388": {
+    "inputs": {
+      "pixels": [
+        "379",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "389": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "390": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "387",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "391": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "389",
+        0
+      ],
+      "latent_image": [
+        "388",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "398": {
+    "inputs": {
+      "conditioning": [
+        "401",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "399": {
+    "inputs": {
+      "samples": [
+        "402",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "400": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "399",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "401": {
+    "inputs": {
+      "prompt": "Make this person sit at a café window seat, captured from a slight overhead angle with a 50mm lens at f/2.0, warm afternoon light catching dust particles in the air, steam rising from a ceramic mug beside her, expression thoughtful and distant, skin showing natural texture and fine lines.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "402": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "401",
+        0
+      ],
+      "negative": [
+        "398",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "407": {
+    "inputs": {
+      "samples": [
+        "410",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "408": {
+    "inputs": {
+      "pixels": [
+        "399",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "409": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "410": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "409",
+        0
+      ],
+      "latent_image": [
+        "408",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "411": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "407",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "418": {
+    "inputs": {
+      "conditioning": [
+        "421",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "419": {
+    "inputs": {
+      "samples": [
+        "422",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "420": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "419",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "421": {
+    "inputs": {
+      "prompt": "Make this person walk through a night market, captured from a behind-and-side angle with a 35mm lens at f/2.8, colorful food stall lights creating overlapping shadows on her face, slight motion blur on surrounding crowd, expression curious and alert, skin showing pores and natural imperfections under warm sodium light.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "422": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "421",
+        0
+      ],
+      "negative": [
+        "418",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "427": {
+    "inputs": {
+      "samples": [
+        "430",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "428": {
+    "inputs": {
+      "pixels": [
+        "419",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "429": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "430": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "429",
+        0
+      ],
+      "latent_image": [
+        "428",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "431": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "427",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "438": {
+    "inputs": {
+      "conditioning": [
+        "442",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "439": {
+    "inputs": {
+      "samples": [
+        "441",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "440": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "439",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "441": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "442",
+        0
+      ],
+      "negative": [
+        "438",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "442": {
+    "inputs": {
+      "prompt": "Make this person stand in a convenience store aisle, captured from a direct front angle with a 28mm lens at f/3.5, harsh fluorescent overhead lighting casting slight shadows under her eyes, holding a drink, expression neutral and tired, skin showing subtle blemishes and natural oil texture.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "447": {
+    "inputs": {
+      "samples": [
+        "450",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "448": {
+    "inputs": {
+      "pixels": [
+        "439",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "449": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "450": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "449",
+        0
+      ],
+      "latent_image": [
+        "448",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "451": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "447",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "458": {
+    "inputs": {
+      "conditioning": [
+        "462",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "459": {
+    "inputs": {
+      "samples": [
+        "461",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "460": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "459",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "461": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "462",
+        0
+      ],
+      "negative": [
+        "458",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "462": {
+    "inputs": {
+      "prompt": "Make this person lean against a concrete pillar in a parking garage, captured from a low 3/4 angle with a 35mm lens at f/2.0, single overhead light creating dramatic top-down shadows, expression contemplative, slight upward gaze, skin texture emphasized by harsh directional light showing pores and fine lines.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "467": {
+    "inputs": {
+      "samples": [
+        "470",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "468": {
+    "inputs": {
+      "pixels": [
+        "459",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "469": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "470": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "469",
+        0
+      ],
+      "latent_image": [
+        "468",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "471": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "467",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "478": {
+    "inputs": {
+      "conditioning": [
+        "482",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "479": {
+    "inputs": {
+      "samples": [
+        "480",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "480": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "482",
+        0
+      ],
+      "negative": [
+        "478",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "481": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "479",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "482": {
+    "inputs": {
+      "prompt": "Make this person sit on a train, captured from a slight side angle with a 50mm lens at f/1.8, soft diffused window light on one side of her face, dark reflection of herself visible in the window glass behind her, expression calm and inward, skin showing natural highlights and subtle texture.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "487": {
+    "inputs": {
+      "samples": [
+        "490",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "488": {
+    "inputs": {
+      "pixels": [
+        "479",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "489": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "490": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "489",
+        0
+      ],
+      "latent_image": [
+        "488",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "491": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "487",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "498": {
+    "inputs": {
+      "conditioning": [
+        "502",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "499": {
+    "inputs": {
+      "samples": [
+        "501",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "500": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "499",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "501": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "502",
+        0
+      ],
+      "negative": [
+        "498",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "502": {
+    "inputs": {
+      "prompt": "Make this person stand at a rooftop edge during golden hour, captured from a low angle looking slightly up with a 35mm lens at f/2.8, warm backlit rim light outlining her hair, city skyline soft and blurred behind her, expression serene, slight squint from the light, skin glowing with warm tones but retaining natural texture.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "507": {
+    "inputs": {
+      "samples": [
+        "510",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "508": {
+    "inputs": {
+      "pixels": [
+        "499",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "509": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "510": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "509",
+        0
+      ],
+      "latent_image": [
+        "508",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "511": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "507",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "518": {
+    "inputs": {
+      "conditioning": [
+        "522",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "519": {
+    "inputs": {
+      "samples": [
+        "521",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "520": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "519",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "521": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "522",
+        0
+      ],
+      "negative": [
+        "518",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "522": {
+    "inputs": {
+      "prompt": "Make this person crouch beside a vending machine at night, captured from a direct side profile with a 35mm lens at f/2.0, blue and white machine light as the sole source, strong contrast between lit and shadow sides of her face, expression focused and slightly amused, skin showing pores and natural blemishes under cool light.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "527": {
+    "inputs": {
+      "samples": [
+        "530",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "528": {
+    "inputs": {
+      "pixels": [
+        "519",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "529": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "530": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "529",
+        0
+      ],
+      "latent_image": [
+        "528",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "531": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "527",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "538": {
+    "inputs": {
+      "conditioning": [
+        "542",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "539": {
+    "inputs": {
+      "samples": [
+        "541",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "540": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "539",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "541": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "542",
+        0
+      ],
+      "negative": [
+        "538",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "542": {
+    "inputs": {
+      "prompt": "Make this person stand under a building overhang during rain, captured from a mid-distance 3/4 front angle with a 50mm lens at f/2.8, soft reflected light bouncing off wet ground, faint mist in background, hair slightly damp at the edges, expression calm and waiting, skin showing natural moisture and texture.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "547": {
+    "inputs": {
+      "samples": [
+        "550",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "548": {
+    "inputs": {
+      "pixels": [
+        "539",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "549": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "550": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "549",
+        0
+      ],
+      "latent_image": [
+        "548",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "551": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "547",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "558": {
+    "inputs": {
+      "conditioning": [
+        "562",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "559": {
+    "inputs": {
+      "samples": [
+        "561",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "560": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "559",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "561": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "562",
+        0
+      ],
+      "negative": [
+        "558",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "562": {
+    "inputs": {
+      "prompt": "Make this person sit on concrete steps outside a subway entrance, captured from a slightly elevated front angle with a 35mm lens at f/2.8, overcast diffused daylight, people blurred in motion behind her, expression relaxed and unbothered, skin showing natural daylight texture with subtle pores and fine lines.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "567": {
+    "inputs": {
+      "samples": [
+        "570",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "568": {
+    "inputs": {
+      "pixels": [
+        "559",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "569": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "570": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "569",
+        0
+      ],
+      "latent_image": [
+        "568",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "571": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "567",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "578": {
+    "inputs": {
+      "conditioning": [
+        "582",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "579": {
+    "inputs": {
+      "samples": [
+        "581",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "580": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "579",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "581": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "582",
+        0
+      ],
+      "negative": [
+        "578",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "582": {
+    "inputs": {
+      "prompt": "Make this person browse a used bookstore, captured from a low side angle with a 50mm lens at f/2.0, warm incandescent shelf lighting casting a soft glow on one side of her face, books slightly blurred in foreground, expression engaged and concentrated, skin showing warm tones and natural imperfections.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "587": {
+    "inputs": {
+      "samples": [
+        "590",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "588": {
+    "inputs": {
+      "pixels": [
+        "579",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "589": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "590": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "589",
+        0
+      ],
+      "latent_image": [
+        "588",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "591": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "587",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "598": {
+    "inputs": {
+      "conditioning": [
+        "602",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "599": {
+    "inputs": {
+      "samples": [
+        "601",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "600": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "599",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "601": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "602",
+        0
+      ],
+      "negative": [
+        "598",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "602": {
+    "inputs": {
+      "prompt": "Make this person stand in a laundromat at night, captured from a 3/4 rear angle with a 35mm lens at f/2.8, warm yellow interior light through the window contrasting with cool blue street light, expression reflected faintly in the machine glass, skin on visible neck and cheek showing natural texture.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "607": {
+    "inputs": {
+      "samples": [
+        "610",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "608": {
+    "inputs": {
+      "pixels": [
+        "599",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "609": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "610": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "609",
+        0
+      ],
+      "latent_image": [
+        "608",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "611": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "607",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "618": {
+    "inputs": {
+      "conditioning": [
+        "622",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "619": {
+    "inputs": {
+      "samples": [
+        "620",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "620": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "622",
+        0
+      ],
+      "negative": [
+        "618",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "621": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "619",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "622": {
+    "inputs": {
+      "prompt": "Make this person sit on a fire escape landing, captured from a straight-on level angle with a 35mm lens at f/2.0, late afternoon light filtering through metal grating creating striped shadows across her face and jacket, expression relaxed with slight smile, skin showing natural daylight detail and subtle blemishes.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "627": {
+    "inputs": {
+      "samples": [
+        "630",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "628": {
+    "inputs": {
+      "pixels": [
+        "619",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "629": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "630": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "629",
+        0
+      ],
+      "latent_image": [
+        "628",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "631": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "627",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "638": {
+    "inputs": {
+      "conditioning": [
+        "642",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "639": {
+    "inputs": {
+      "samples": [
+        "641",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "640": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "639",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "641": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "642",
+        0
+      ],
+      "negative": [
+        "638",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "642": {
+    "inputs": {
+      "prompt": "Make this person wait at a bus stop at dusk, captured from a low 3/4 angle with a 28mm lens at f/3.5, deep blue sky transitioning overhead, single streetlamp beginning to glow warm above her, expression quietly patient, slight wind movement in hair, skin showing natural pores and texture in mixed natural and artificial light.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "647": {
+    "inputs": {
+      "samples": [
+        "650",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "648": {
+    "inputs": {
+      "pixels": [
+        "639",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "649": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "650": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "649",
+        0
+      ],
+      "latent_image": [
+        "648",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "651": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "647",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "658": {
+    "inputs": {
+      "conditioning": [
+        "662",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "659": {
+    "inputs": {
+      "samples": [
+        "661",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "660": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "659",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "661": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "662",
+        0
+      ],
+      "negative": [
+        "658",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "662": {
+    "inputs": {
+      "prompt": "Make this person stand in a dim hallway of an apartment building, captured from a straight front angle with a 50mm lens at f/1.8, single overhead bulb creating a tight pool of warm light, deep shadows on either side, expression neutral and direct, eye contact with camera, skin showing pores and natural imperfections emphasized by overhead light.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "667": {
+    "inputs": {
+      "samples": [
+        "670",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "668": {
+    "inputs": {
+      "pixels": [
+        "659",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "669": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "670": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "669",
+        0
+      ],
+      "latent_image": [
+        "668",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "671": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "667",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "678": {
+    "inputs": {
+      "conditioning": [
+        "682",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "679": {
+    "inputs": {
+      "samples": [
+        "681",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "680": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/CC",
+      "images": [
+        "679",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "681": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "370",
+        0
+      ],
+      "positive": [
+        "682",
+        0
+      ],
+      "negative": [
+        "678",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "682": {
+    "inputs": {
+      "prompt": "Make this person walk through a flower market in the morning, captured from a slight low side angle with a 50mm lens at f/2.0, cool morning light with soft warm patches from shop interiors, blurred buckets of colorful flowers in foreground and background, expression relaxed and easy, slight natural smile, skin showing morning light texture.",
+      "clip": [
+        "7",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image1": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlus"
+    }
+  },
+  "687": {
+    "inputs": {
+      "samples": [
+        "690",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "688": {
+    "inputs": {
+      "pixels": [
+        "679",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "689": {
+    "inputs": {
+      "conditioning": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ConditioningZeroOut"
+    }
+  },
+  "690": {
+    "inputs": {
+      "seed": 10000,
+      "steps": 9,
+      "cfg": 1,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 0.3,
+      "model": [
+        "371",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "689",
+        0
+      ],
+      "latent_image": [
+        "688",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "691": {
+    "inputs": {
+      "filename_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+      "images": [
+        "687",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}

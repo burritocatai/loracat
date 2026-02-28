@@ -30,6 +30,8 @@ services:
       - ./workflow_api.json:/app/workflow_api.json:ro
       # Face reference image (for image loader node injection)
       - ./face_reference.png:/app/face_reference.png:ro
+      # Batch prompts for image generation
+      - ./prompts.json:/app/prompts.json:ro
       # Config (training config + workflow node mapping + dataset config)
       - ./config:/app/config:ro
 

@@ -480,15 +480,29 @@ def collect_per_batch(
 
     total_saved = 0
     for i, entry in enumerate(batches):
-        prompt_text = entry["prompt"]
+        base_prompt = entry["prompt"]
         base_seed = entry.get("seed", 0)
         count = entry.get("count", 1)
-        angle = entry.get("angle", "unknown")
-        expression = entry.get("expression", "unknown")
+        angle = entry.get("angle")
+        expression = entry.get("expression")
+        clothes = entry.get("clothes")
+        lighting = entry.get("lighting")
+
+        # Build full prompt from base prompt + keys
+        parts = [base_prompt]
+        if clothes:
+            parts.append(f"wearing {clothes}")
+        if expression:
+            parts.append(f"with {expression} expression")
+        if angle:
+            parts.append(f"from {angle} angle")
+        if lighting:
+            parts.append(f"with {lighting} lighting")
+        prompt_text = ", ".join(parts)
 
         log.info(
-            "[%d/%d] angle=%s, expression=%s, base_seed=%d, count=%d",
-            i + 1, len(batches), angle, expression, base_seed, count,
+            "[%d/%d] angle=%s, expression=%s, clothes=%s, lighting=%s, base_seed=%d, count=%d",
+            i + 1, len(batches), angle, expression, clothes, lighting, base_seed, count,
         )
 
         for c in range(count):
@@ -508,7 +522,7 @@ def collect_per_batch(
                 images = get_images(endpoint, prompt_id, output_nodes)
                 for j, (orig_name, img_data) in enumerate(images):
                     ext = Path(orig_name).suffix or ".png"
-                    filename = f"{angle}_{expression}_{seed}_{j:03d}{ext}"
+                    filename = f"{angle or 'unknown'}_{expression or 'unknown'}_{seed}_{j:03d}{ext}"
                     save_path = output_path / filename
                     save_path.write_bytes(img_data)
                     log.info("    Saved: %s (%d bytes)", save_path.name, len(img_data))

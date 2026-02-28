@@ -23,3 +23,6 @@ toml>=0.10.2
 # HTTP client for ComfyUI API
 requests>=2.31.0
 websocket-client>=1.7.0
+
+# Image selection web UI
+flask>=3.0.0

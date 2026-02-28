@@ -53,6 +53,10 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
+    # Image selection web UI
+    ports:
+      - "${IMAGE_SELECTOR_PORT:-8080}:${IMAGE_SELECTOR_PORT:-8080}"
+
     # Allow access to host network for ComfyUI
     extra_hosts:
       - "host.docker.internal:host-gateway"

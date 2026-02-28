@@ -1,4 +1,35 @@
 {
+  "generate_workflow": true,
   "image_loader_node": "16",
-  "output_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL"
+  "output_prefix": "Qwen_Consistent_Char/Z_IMG_FINAL",
+
+  "seed": 10000,
+  "resolution": 1024,
+  "refine_prompt": "detailed, visible skin pores, photorealistic",
+  "model_shift": 3,
+
+  "models": {
+    "z_image_unet": "z_image_turbo_bf16.safetensors",
+    "z_image_vae": "ae.safetensors",
+    "qwen_vae": "qwen_image_vae.safetensors",
+    "qwen_unet_gguf": "qwen-image-edit-2511-Q4_K_M.gguf",
+    "lumina_clip": "qwen_3_4b.safetensors",
+    "qwen_clip": "qwen_2.5_vl_7b.safetensors",
+    "lightning_lora": "Qwen-Image-Lightning-4steps-V1.0.safetensors"
+  },
+
+  "pass1": {
+    "steps": 4,
+    "cfg": 1,
+    "sampler": "euler",
+    "scheduler": "simple"
+  },
+
+  "pass2": {
+    "steps": 9,
+    "cfg": 1,
+    "sampler": "res_multistep",
+    "scheduler": "simple",
+    "denoise": 0.3
+  }
 }

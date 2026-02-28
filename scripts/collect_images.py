@@ -2,9 +2,15 @@
 """
 collect_images.py — Batch image collection from a ComfyUI API endpoint.
 
-Supports two modes, auto-detected from workflow_config.json:
+Supports three modes, auto-detected from workflow_config.json:
 
-  Full-workflow mode (default for Qwen→Z-Turbo pipelines):
+  Generated-workflow mode (recommended for Qwen→Z-Turbo pipelines):
+    - Builds the workflow dynamically from prompts.json
+    - Number of images = number of prompts
+    - workflow_config.json needs: generate_workflow: true, output_prefix
+    - All model names, sampler settings, etc. configurable in workflow_config
+
+  Full-workflow mode (legacy — static workflow file):
     - Workflow has all prompts baked in
     - Uploads face reference, injects into image loader node
     - Submits once, downloads only outputs matching output_prefix
@@ -28,6 +34,8 @@ from urllib.parse import urljoin, quote
 import requests
 import websocket
 
+from build_workflow import build_workflow, load_prompts
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -46,6 +54,11 @@ def load_workflow_config(config_path: str) -> dict:
         cfg = json.load(f)
 
     # Determine mode
+    if cfg.get("generate_workflow"):
+        cfg["_mode"] = "generated"
+        log.info("  Mode: generated (workflow built from prompts)")
+        return cfg
+
     has_batch_fields = "positive_prompt_node" in cfg and "seed_node" in cfg
     has_prefix = "output_prefix" in cfg
 
@@ -277,6 +290,44 @@ def get_images(
             images.append((filename, img_resp.content))
 
     return images
+
+
+# ── Memory cleanup ────────────────────────────────────────────────────────────
+
+UNLOAD_MODELS_WORKFLOW = {
+    "1": {
+        "inputs": {"value": ["4", 0]},
+        "class_type": "UnloadAllModels",
+        "_meta": {"title": "UnloadAllModels"},
+    },
+    "3": {
+        "inputs": {"any_input": ["1", 0]},
+        "class_type": "DummyOut",
+        "_meta": {"title": "Dummy Out"},
+    },
+    "4": {
+        "inputs": {},
+        "class_type": "ImpactDummyInput",
+        "_meta": {"title": "ImpactDummyInput"},
+    },
+}
+
+
+def unload_models(endpoint: str) -> None:
+    """Run a dummy workflow that unloads all models from ComfyUI GPU memory.
+
+    This frees VRAM after image generation so that subsequent training
+    is not starved for memory.
+    """
+    endpoint = endpoint.rstrip("/")
+    ws_endpoint = endpoint.replace("http://", "ws://").replace("https://", "wss://")
+    client_id = str(uuid.uuid4())
+    ws_url = f"{ws_endpoint}/ws?clientId={client_id}"
+
+    log.info("Unloading ComfyUI models to free GPU memory ...")
+    prompt_id = queue_prompt(endpoint, UNLOAD_MODELS_WORKFLOW, client_id)
+    wait_for_completion(ws_url, prompt_id, timeout=120)
+    log.info("Models unloaded successfully")
 
 
 # ── Full-workflow mode ───────────────────────────────────────────────────────
@@ -528,11 +579,21 @@ def main():
 
     face = args.face_image if args.face_image else None
 
-    workflow = load_workflow(args.workflow)
     node_cfg = load_workflow_config(args.workflow_config)
 
-    if node_cfg["_mode"] == "full":
-        log.info("Running in full-workflow mode (all prompts baked into workflow)")
+    if node_cfg["_mode"] == "generated":
+        if not args.prompts:
+            log.error("Generated-workflow mode requires --prompts file")
+            sys.exit(1)
+        prompts = load_prompts(args.prompts)
+        log.info("Building workflow from %d prompts", len(prompts))
+        workflow = build_workflow(prompts, node_cfg)
+        log.info("Built workflow with %d nodes", len(workflow))
+    else:
+        workflow = load_workflow(args.workflow)
+
+    if node_cfg["_mode"] in ("generated", "full"):
+        log.info("Running in full-workflow mode (%d nodes)", len(workflow))
         count = collect_full_workflow(
             endpoint=args.endpoint,
             output_dir=args.output_dir,
@@ -559,6 +620,9 @@ def main():
     if count == 0:
         log.error("No images were collected!")
         sys.exit(1)
+
+    # Free GPU memory so subsequent training isn't starved for VRAM
+    unload_models(args.endpoint)
 
 
 if __name__ == "__main__":

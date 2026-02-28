@@ -1,0 +1,16 @@
+# LoRACat — Musubi-Tuner Dataset Configuration
+#
+# This is a template. train_lora.py generates the actual config at runtime,
+# merging these defaults with environment variable overrides.
+
+[general]
+resolution = [1024, 1024]
+caption_extension = ".txt"
+batch_size = 4
+enable_bucket = true
+
+[[datasets]]
+image_directory = "/dataset/images"
+caption_extension = ".txt"
+cache_directory = "/dataset/cache"
+num_repeats = 1

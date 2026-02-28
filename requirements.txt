@@ -1,0 +1,25 @@
+# LoRACat application dependencies (collect + caption scripts)
+# Training deps (diffusers, accelerate, transformers, peft) are managed by musubi-tuner.
+
+# Image processing
+Pillow>=10.0.0
+opencv-python-headless>=4.8.0
+
+# WD14 tagger (CPU-only onnxruntime — GPU version lacks ARM64 wheels)
+onnxruntime>=1.19.0
+huggingface_hub>=0.27.0
+numpy>=1.26.0
+pandas>=2.1.0
+
+# Tokenizer backends (required by Qwen3 text encoder)
+sentencepiece>=0.2.0
+
+# Experiment tracking (optional)
+wandb>=0.18.0
+
+# Config
+toml>=0.10.2
+
+# HTTP client for ComfyUI API
+requests>=2.31.0
+websocket-client>=1.7.0

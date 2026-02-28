@@ -1,0 +1,51 @@
+# LoRACat — Z-Image LoRA Training Configuration (musubi-tuner)
+#
+# All values here can be overridden by environment variables.
+# This file is saved alongside the trained LoRA for reproducibility.
+
+# Model paths
+dit = "/models/z_image/dit"
+vae = "/models/z_image/vae"
+text_encoder = "/models/z_image/text_encoder"
+
+# Dataset
+dataset_config = "/dataset/cache/dataset_config.toml"
+
+# LoRA network
+network_module = "networks.lora_zimage"
+network_dim = 32
+
+# Output
+output_dir = "/output/lora"
+output_name = "lora_output"
+
+# Training hyperparameters
+train_batch_size = 4
+gradient_accumulation_steps = 1
+learning_rate = 1e-4
+lr_scheduler = "cosine"
+lr_warmup_steps = 100
+max_train_epochs = 16
+save_every_n_epochs = 1
+seed = 42
+
+# Mixed precision — bf16 is optimal on Blackwell
+mixed_precision = "bf16"
+
+# Memory optimization
+gradient_checkpointing = true
+optimizer_type = "adamw8bit"
+
+# Attention — PyTorch native SDPA (no xformers needed)
+sdpa = true
+
+# Timestep sampling for Z-Image flow matching
+timestep_sampling = "shift"
+weighting_scheme = "none"
+discrete_flow_shift = 2.0
+
+# Data loading
+dataloader_num_workers = 4
+
+# Cache settings
+cache_text_encoder_batch_size = 16

@@ -1,0 +1,62 @@
+services:
+  loracat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: loracat:latest
+    container_name: loracat
+
+    # GPU passthrough
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    # 128GB unified memory on DGX Spark — allocate generous shared memory
+    shm_size: "64g"
+
+    volumes:
+      # Training dataset (images + captions)
+      - ./dataset:/dataset
+      # LoRA output
+      - ./output:/output
+      # Z-Image model components (dit, vae, text_encoder)
+      - ./models:/models
+      # ComfyUI workflow (exported API JSON)
+      - ./workflow_api.json:/app/workflow_api.json:ro
+      # Face reference image (for image loader node injection)
+      - ./face_reference.png:/app/face_reference.png:ro
+      # Config (training config + workflow node mapping + dataset config)
+      - ./config:/app/config:ro
+
+    # User-configurable vars — loaded from .env file
+    # Copy .env.example to .env to get started:  cp .env.example .env
+    env_file:
+      - path: .env
+        required: false
+
+    # Fixed container-internal paths (not user-configurable)
+    environment:
+      - COMFYUI_WORKFLOW=/app/workflow_api.json
+      - WORKFLOW_CONFIG=/app/config/workflow_config.json
+      - FACE_REFERENCE=/app/face_reference.png
+      - DATASET_DIR=/dataset/images
+      - CACHE_DIR=/dataset/cache
+      - OUTPUT_DIR=/output/lora
+      - TRAINING_CONFIG=/app/config/training_config.toml
+      - DATASET_CONFIG=/app/config/dataset_config.toml
+      # NVIDIA container toolkit
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+    # Allow access to host network for ComfyUI
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    # Pipeline steps to run (default: all)
+    # Override with: docker compose run loracat --collect --caption --train
+    # Or run individual steps: docker compose run loracat --caption --train

@@ -10,8 +10,9 @@ OUTPUT_DIR="${OUTPUT_DIR:-./image_batches}"
 
 # --- Usage ---
 usage() {
-  echo "Usage: LITELLM_API_KEY=your_key $0 <batch_count> [output_file]"
-  echo "  batch_count   Number of image prompts to generate"
+  echo "Usage: LITELLM_API_KEY=your_key $0 <normal_count> <face_count> [output_file]"
+  echo "  normal_count  Number of scene prompts to generate"
+  echo "  face_count    Number of close-up face prompts to generate"
   echo "  output_file   Optional output filename (default: batches_TIMESTAMP.json)"
   exit 1
 }
@@ -70,6 +71,54 @@ Example of correct output:
     '{model: $model, messages: [{role: "user", content: $content}], temperature: 0.95, max_tokens: 512}')
 
 local response
+  local curl_err
+  curl_err=$(mktemp)
+  if ! response=$(curl -sf \
+    --max-time 60 \
+    -X POST "$LITELLM_ENDPOINT" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${LITELLM_API_KEY}" \
+    -d "$payload" \
+    2>"$curl_err"); then
+    log_error "curl failed: $(cat "$curl_err")"
+    log_error "Endpoint: $LITELLM_ENDPOINT"
+    log_error "Payload: $payload"
+    rm -f "$curl_err"
+    return 1
+  fi
+  rm -f "$curl_err"
+  echo "$response" | jq -r '.choices[0].message.content'
+}
+
+# --- LiteLLM Call (Face Close-ups) ---
+call_litellm_face() {
+  local batch_num="$1"
+  local total="$2"
+
+  local prompt="You are a JSON-only output machine. Output a single valid JSON object and nothing else. No code fences, no backticks, no explanations.
+
+Generate creative and varied values for a single photorealistic close-up face/portrait prompt. This is face batch ${batch_num} of ${total} -- make each one meaningfully different in face angle, expression, and lighting.
+
+Output ONLY this exact JSON structure with no other text:
+{\"angle\": \"...\", \"expression\": \"...\", \"clothes\": \"...\", \"lighting\": \"...\", \"prompt\": \"...\"}
+
+Rules:
+- \"angle\": a face-specific angle such as: straight-on, three-quarter left, three-quarter right, slight left profile, slight right profile, looking up, looking down, tilted head left, tilted head right, over-the-shoulder glance, chin slightly raised, chin tucked down. Pick varied ones each time.
+- \"expression\": a short natural human expression such as: calm and focused, thoughtful, smiling faintly, serious and composed, soft smile, distant and pensive, amused, slight smirk, contemplative, warm gaze, subtle surprise, relaxed, etc.
+- \"clothes\": a specific realistic clothing description visible in a close-up/headshot (collar, neckline, shoulders). Be specific and varied.
+- \"lighting\": a specific lighting condition such as: soft window light, Rembrandt lighting, butterfly lighting, split lighting, golden hour glow, overcast diffused, studio softbox, backlit rim light, candlelight, blue hour, natural shade, harsh directional sun, etc.
+- \"prompt\": A single sentence describing a close-up face/headshot portrait. Must use a portrait lens (85mm, 105mm, or 135mm) with a wide aperture (f/1.4, f/1.8, or f/2.0). Must emphasize facial detail: skin texture, pores, fine lines, eye detail, natural imperfections. The background should be blurred/bokeh. Vary the face angles and settings each time.
+
+Example of correct output:
+{\"angle\": \"three-quarter left\", \"expression\": \"soft smile\", \"clothes\": \"navy crew-neck sweater\", \"lighting\": \"Rembrandt lighting\", \"prompt\": \"Close-up headshot portrait with a 105mm lens at f/1.8, sharp focus on the eyes, visible skin pores and fine lines, soft bokeh background, natural and intimate feel.\"}"
+
+  local payload
+  payload=$(jq -n \
+    --arg model "$LITELLM_MODEL" \
+    --arg content "$prompt" \
+    '{model: $model, messages: [{role: "user", content: $content}], temperature: 0.95, max_tokens: 512}')
+
+  local response
   local curl_err
   curl_err=$(mktemp)
   if ! response=$(curl -sf \
@@ -148,15 +197,24 @@ validate_batch() {
 main() {
   check_deps
 
-  if [[ $# -lt 1 ]]; then
+  if [[ $# -lt 2 ]]; then
     usage
   fi
 
-  local batch_count="$1"
-  local output_file="${2:-}"
+  local normal_count="$1"
+  local face_count="$2"
+  local output_file="${3:-}"
 
-  if ! [[ "$batch_count" =~ ^[0-9]+$ ]] || [[ "$batch_count" -lt 1 ]]; then
-    log_error "batch_count must be a positive integer"
+  if ! [[ "$normal_count" =~ ^[0-9]+$ ]] || [[ "$normal_count" -lt 0 ]]; then
+    log_error "normal_count must be a non-negative integer"
+    usage
+  fi
+  if ! [[ "$face_count" =~ ^[0-9]+$ ]] || [[ "$face_count" -lt 0 ]]; then
+    log_error "face_count must be a non-negative integer"
+    usage
+  fi
+  if [[ "$normal_count" -eq 0 && "$face_count" -eq 0 ]]; then
+    log_error "At least one of normal_count or face_count must be positive"
     usage
   fi
 
@@ -180,58 +238,102 @@ if [[ -z "$LITELLM_API_KEY" || "$LITELLM_API_KEY" == "your_api_key_here" ]]; the
     output_file="${OUTPUT_DIR}/batches_$(date +%Y%m%d_%H%M%S).json"
   fi
 
-  log "Generating $batch_count batch(es) -> $output_file"
+  local total_count=$((normal_count + face_count))
+  log "Generating $total_count prompt(s) ($normal_count scene + $face_count face) -> $output_file"
 
   local batches_json="[]"
   local success=0
-  local i=1
 
-  while [[ $i -le $batch_count ]]; do
-    log "Requesting batch $i of $batch_count..."
+  # --- Generate normal scene prompts ---
+  if [[ $normal_count -gt 0 ]]; then
+    log "--- Generating $normal_count scene prompt(s) ---"
+    local i=1
+    while [[ $i -le $normal_count ]]; do
+      log "Requesting scene prompt $i of $normal_count..."
 
-    local raw_response
-    if ! raw_response=$(call_litellm "$i" "$batch_count"); then
-      log_error "LiteLLM request failed for batch $i -- skipping"
+      local raw_response
+      if ! raw_response=$(call_litellm "$i" "$normal_count"); then
+        log_error "LiteLLM request failed for scene prompt $i -- skipping"
+        i=$((i + 1))
+        continue
+      fi
+
+      local clean_json
+      clean_json=$(repair_json "$raw_response")
+
+      if [[ -z "$clean_json" ]]; then
+        log_error "Could not parse response for scene prompt $i -- skipping"
+        log_error "Raw response: $raw_response"
+        i=$((i + 1))
+        continue
+      fi
+
+      if ! validate_batch "$clean_json"; then
+        log_error "Missing required fields in scene prompt $i -- skipping"
+        log_error "Parsed JSON: $clean_json"
+        i=$((i + 1))
+        continue
+      fi
+
+      local seed
+      seed=$(random_seed)
+      clean_json=$(echo "$clean_json" | jq --argjson seed "$seed" '. + {seed: $seed, count: 1}')
+
+      batches_json=$(echo "$batches_json" | jq --argjson batch "$clean_json" '. + [$batch]')
+
+      log "Scene prompt $i OK (seed: $seed)"
+      success=$((success + 1))
       i=$((i + 1))
-      continue
-    fi
+    done
+  fi
 
-    # Repair and clean
-    local clean_json
-    clean_json=$(repair_json "$raw_response")
+  # --- Generate face close-up prompts ---
+  if [[ $face_count -gt 0 ]]; then
+    log "--- Generating $face_count face close-up prompt(s) ---"
+    local j=1
+    while [[ $j -le $face_count ]]; do
+      log "Requesting face prompt $j of $face_count..."
 
-    if [[ -z "$clean_json" ]]; then
-      log_error "Could not parse response for batch $i -- skipping"
-      log_error "Raw response: $raw_response"
-      i=$((i + 1))
-      continue
-    fi
+      local raw_response
+      if ! raw_response=$(call_litellm_face "$j" "$face_count"); then
+        log_error "LiteLLM request failed for face prompt $j -- skipping"
+        j=$((j + 1))
+        continue
+      fi
 
-    # Validate fields
-    if ! validate_batch "$clean_json"; then
-      log_error "Missing required fields in batch $i -- skipping"
-      log_error "Parsed JSON: $clean_json"
-      i=$((i + 1))
-      continue
-    fi
+      local clean_json
+      clean_json=$(repair_json "$raw_response")
 
-    # Add seed and count
-    local seed
-    seed=$(random_seed)
-    clean_json=$(echo "$clean_json" | jq --argjson seed "$seed" '. + {seed: $seed, count: 1}')
+      if [[ -z "$clean_json" ]]; then
+        log_error "Could not parse response for face prompt $j -- skipping"
+        log_error "Raw response: $raw_response"
+        j=$((j + 1))
+        continue
+      fi
 
-    # Append to batches array
-    batches_json=$(echo "$batches_json" | jq --argjson batch "$clean_json" '. + [$batch]')
+      if ! validate_batch "$clean_json"; then
+        log_error "Missing required fields in face prompt $j -- skipping"
+        log_error "Parsed JSON: $clean_json"
+        j=$((j + 1))
+        continue
+      fi
 
-    log "Batch $i OK (seed: $seed)"
-    success=$((success + 1))
-    i=$((i + 1))
-  done
+      local seed
+      seed=$(random_seed)
+      clean_json=$(echo "$clean_json" | jq --argjson seed "$seed" '. + {seed: $seed, count: 1}')
+
+      batches_json=$(echo "$batches_json" | jq --argjson batch "$clean_json" '. + [$batch]')
+
+      log "Face prompt $j OK (seed: $seed)"
+      success=$((success + 1))
+      j=$((j + 1))
+    done
+  fi
 
   # Wrap in final structure and save
   echo "$batches_json" | jq '{batches: .}' > "$output_file"
 
-  log "Done. $success/$batch_count batches generated -> $output_file"
+  log "Done. $success/$total_count prompts generated ($normal_count scene + $face_count face) -> $output_file"
 }
 
 main "$@"
